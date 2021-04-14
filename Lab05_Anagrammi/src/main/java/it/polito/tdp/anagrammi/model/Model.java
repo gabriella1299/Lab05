@@ -1,23 +1,30 @@
 package it.polito.tdp.anagrammi.model;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import it.polito.tdp.anagrammi.db.AnagrammaDAO;
 
 public class Model {
 	
-	List<String> risultato=new ArrayList<String>();
-	AnagrammaDAO anagramma=new AnagrammaDAO();
+	Set<String> risultato;
+	AnagrammaDAO anagramma;
 	
-	public List<String> getSoluzione(String parola){
+	public Model() {
+		anagramma=new AnagrammaDAO();
+	}
+	
+	public Set<String> getSoluzione(String parola){
+
+		risultato=new HashSet<String>();//si svuota sempre ogni volta che viene premuto il bottone 'Calcola Anagrammi'
+										//non serve piu' la funzione svuotaSet()
 		
 		if(anagramma.isCorrect(parola)==false) {
 			return null;			
 		}
 		
 		permuta("",0,parola);
-		//System.out.println(risultato);
 		return risultato;
 		
 	}
@@ -37,8 +44,8 @@ public class Model {
 		}
 	}
 	
-	public void svuotaLista() {
+	/*public void svuotaSet() {
 		risultato.clear();
-	}
+	}*/
 		
 }

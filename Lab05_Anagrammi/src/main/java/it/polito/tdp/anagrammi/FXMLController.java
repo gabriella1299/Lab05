@@ -3,6 +3,7 @@ package it.polito.tdp.anagrammi;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import it.polito.tdp.anagrammi.db.AnagrammaDAO;
 import it.polito.tdp.anagrammi.model.Model;
@@ -45,8 +46,19 @@ public class FXMLController {
     	try {
     		String parola=txtParola.getText();
         	AnagrammaDAO a=new AnagrammaDAO();
-        	List<String> soluzione= this.model.getSoluzione(parola);
         	
+        	if(parola=="") {
+        		txtCorretti.setText("Inserire una parola!");
+        		return;
+        	}
+        	if(parola.matches("[a-zA-Z]*")) {
+        		if(!a.isCorrect(parola)) {
+        			txtCorretti.setText("Parola non presente nel dizionario.");
+        			return;
+        		}
+        	}
+        	
+        	Set<String> soluzione= this.model.getSoluzione(parola);
         	
         	for(String s:soluzione) {
         		if(a.isCorrect(s)) {
@@ -55,12 +67,9 @@ public class FXMLController {
         		else {
         			txtErrati.appendText(s+"\n");
         		}
-        		
         	}
-   
-        	this.model.svuotaLista();
-        	
-    	}catch(NullPointerException npe) { 
+        	//this.model.svuotaSet();
+        } catch(NullPointerException npe) { 
     		txtCorretti.setText("Inserire caratteri alfabetici!");
     		return;
     	}
