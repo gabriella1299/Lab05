@@ -34,6 +34,7 @@ public class Model {
 		//caso terminale
 		if(residui.length()==0) { 
 			risultato.add(parziale);
+			return;
 		}
 		
 		for(int i=0; i<residui.length();i++) {
